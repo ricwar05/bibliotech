@@ -1,0 +1,5 @@
+# Copiar este archivo como application.properties y completar.
+# Datos en Supabase: botón "Connect" -> Session pooler (funciona con IPv4).
+db.url=jdbc:postgresql://aws-0-REGION.pooler.supabase.com:5432/postgres?sslmode=require
+db.user=postgres.TU_PROJECT_REF
+db.password=CAMBIAR

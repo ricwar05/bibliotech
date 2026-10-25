@@ -1,0 +1,19 @@
+# Maven
+target/
+
+# Configuración con credenciales (NUNCA se sube)
+application.properties
+.env
+
+# IDE
+.idea/
+*.iml
+.vscode/
+out/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
