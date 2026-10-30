@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/** Patrón Singleton: una sola conexión para toda la aplicación. */
+
 public final class DatabaseConnection {
     private static DatabaseConnection instance;
     private final Connection connection;
 
-    private DatabaseConnection() throws SQLException {   // privado: nadie puede hacer "new"
+    private DatabaseConnection() throws SQLException {   
         String url = AppConfig.get("db.url");
         String user = AppConfig.get("db.user");
         String password = AppConfig.get("db.password");
@@ -17,7 +17,7 @@ public final class DatabaseConnection {
     }
 
     public static synchronized DatabaseConnection getInstance() throws SQLException {
-        if (instance == null) {                          // se crea solo la primera vez
+        if (instance == null) {                          
             instance = new DatabaseConnection();
         }
         return instance;

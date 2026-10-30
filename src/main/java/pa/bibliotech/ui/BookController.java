@@ -16,7 +16,7 @@ import pa.bibliotech.exception.DataAccessException;
 import pa.bibliotech.exception.DomainException;
 import pa.bibliotech.service.BookService;
 
-/** Pantalla de libros: solo lee campos, llama al servicio y muestra resultados. Sin SQL. */
+
 public class BookController {
     @FXML private TableView<Book> tblBooks;
     @FXML private TableColumn<Book, String> colIsbn;
@@ -34,7 +34,7 @@ public class BookController {
     @FXML private Label lblMessage;
 
     private final BookService bookService;
-    private final Runnable onBack;        // qué hacer al pulsar "Menú" (lo define quien abre la pantalla)
+    private final Runnable onBack;        
 
     public BookController(BookService bookService, Runnable onBack) {
         this.bookService = bookService;
@@ -109,14 +109,12 @@ public class BookController {
         onBack.run();
     }
 
-    // ---------- ayudas ----------
-
-    /** Ejecuta una acción y traduce las excepciones a mensajes claros (sin detalles técnicos). */
+     
     private void run(Runnable action) {
         lblMessage.setText("");
         try {
             action.run();
-        } catch (DomainException e) {                  // BusinessRule o EntityNotFound (polimorfismo)
+        } catch (DomainException e) {                  
             showError(e.getMessage());
         } catch (DataAccessException e) {
             showError("Error con la base de datos. Intente de nuevo.");
@@ -134,7 +132,7 @@ public class BookController {
             return;
         }
         txtIsbn.setText(book.getIsbn());
-        txtIsbn.setDisable(true);                      // el ISBN no se edita
+        txtIsbn.setDisable(true);                      
         txtTitle.setText(book.getTitle());
         txtAuthor.setText(book.getAuthor());
         txtYear.setText(String.valueOf(book.getPublicationYear()));

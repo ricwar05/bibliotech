@@ -2,7 +2,7 @@ package pa.bibliotech.domain;
 
 import pa.bibliotech.exception.BusinessRuleException;
 
-/** Un libro del catálogo. Protege sus propias reglas (encapsulamiento). */
+
 public class Book {
     private long id;
     private final String isbn;
@@ -12,12 +12,12 @@ public class Book {
     private int totalCopies;
     private int availableCopies;
 
-    /** Libro nuevo: todos sus ejemplares empiezan disponibles. */
+    
     public Book(String isbn, String title, String author, int publicationYear, int copies) {
         this(0, isbn, title, author, publicationYear, copies, copies);
     }
 
-    /** Libro leído de la base de datos. */
+    
     public Book(long id, String isbn, String title, String author,
                 int publicationYear, int totalCopies, int availableCopies) {
         if (availableCopies < 0 || availableCopies > totalCopies) {
@@ -36,7 +36,7 @@ public class Book {
         return availableCopies > 0;
     }
 
-    /** Se usará al registrar un préstamo (fase siguiente). */
+    
     public void decreaseAvailableCopies() {
         if (!isAvailable()) {
             throw new BusinessRuleException("No hay ejemplares disponibles de " + title);
@@ -50,7 +50,7 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    /** Cambia el total sin perder la cuenta de los ejemplares prestados. */
+    
     public void changeTotalCopies(int newTotal) {
         int lent = totalCopies - availableCopies;
         if (newTotal < lent) {
