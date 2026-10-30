@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pa.bibliotech.ui.MemberController" prefWidth="1000" prefHeight="560">
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+    <top>
+        <HBox spacing="8">
+            <padding><Insets bottom="10"/></padding>
+            <Button text="Menú" onAction="#onBack"/>
+            <TextField fx:id="txtSearch" promptText="Buscar por nombre o documento"
+                       HBox.hgrow="ALWAYS" onAction="#onSearch"/>
+            <Button text="Buscar" onAction="#onSearch"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tblMembers">
+            <columns>
+                <TableColumn fx:id="colDocument" text="Documento" prefWidth="110"/>
+                <TableColumn fx:id="colName" text="Nombre" prefWidth="200"/>
+                <TableColumn fx:id="colEmail" text="Correo" prefWidth="180"/>
+                <TableColumn fx:id="colPhone" text="Teléfono" prefWidth="100"/>
+                <TableColumn fx:id="colStatus" text="Estado" prefWidth="80"/>
+            </columns>
+        </TableView>
+    </center>
+    <right>
+        <VBox spacing="5" prefWidth="270">
+            <padding><Insets left="12"/></padding>
+            <Label text="Datos del socio" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="Documento (cédula o pasaporte)"/>
+            <TextField fx:id="txtDocument"/>
+            <Label text="Nombre completo"/>
+            <TextField fx:id="txtName"/>
+            <Label text="Correo (opcional)"/>
+            <TextField fx:id="txtEmail"/>
+            <Label text="Teléfono (opcional)"/>
+            <TextField fx:id="txtPhone"/>
+            <CheckBox fx:id="chkActive" text="Activo"/>
+            <HBox spacing="6">
+                <padding><Insets top="8"/></padding>
+                <Button text="Nuevo" onAction="#onNew"/>
+                <Button text="Guardar" onAction="#onSave"/>
+                <Button text="Eliminar" onAction="#onDelete"/>
+            </HBox>
+            <Label fx:id="lblMessage" wrapText="true"/>
+        </VBox>
+    </right>
+</BorderPane>
