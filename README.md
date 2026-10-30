@@ -30,7 +30,7 @@ mvn test
 
 ## Usuarios de prueba
 - `admin` (rol ADMIN) y `biblio` (rol LIBRARIAN).
-- Las contraseñas se entregan al docente por un canal privado.
+- Las contraseñas se entregan al Prof por  privado.
 
 ## Estructura del código (paquete `pa.bibliotech`)
 | Paquete | Responsabilidad |
@@ -46,10 +46,9 @@ mvn test
 | `exception` | Excepciones propias |
 
 ## Documentación
-- `docs/diagrama-clases.md`: diagrama de clases
-- `docs/diccionario-datos.md`: diccionario de datos
-- `docs/mapa-solid.md`: evidencia de SOLID y patrones
-- `docs/capturas/`: capturas de Supabase y de la aplicación
+   - `docs/mapa-solid.md`: evidencia de SOLID y patrones
+   - `docs/capturas/`: capturas de Supabase y de la aplicación
+   - Diagrama de clases y diccionario de datos: en `docs/` (imagen y PDF, a cargo de Nelson)
 
 ## Integrantes
 - Ricardo Guerra: líder, repositorio, conexión y catálogo de libros
