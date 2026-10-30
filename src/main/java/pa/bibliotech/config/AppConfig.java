@@ -1,3 +1,4 @@
+//
 package pa.bibliotech.config;
 
 import java.io.IOException;
@@ -6,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-/** Lee application.properties una sola vez. Las credenciales nunca van en el código. */
+
 public final class AppConfig {
     private static final Properties PROPS = load();
 

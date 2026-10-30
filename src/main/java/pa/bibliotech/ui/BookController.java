@@ -16,7 +16,7 @@ import pa.bibliotech.exception.DataAccessException;
 import pa.bibliotech.exception.DomainException;
 import pa.bibliotech.service.BookService;
 
-/** Pantalla de libros: solo lee campos, llama al servicio y muestra resultados. Sin SQL. */
+
 public class BookController {
     @FXML private TableView<Book> tblBooks;
     @FXML private TableColumn<Book, String> colIsbn;

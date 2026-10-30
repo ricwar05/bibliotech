@@ -8,10 +8,10 @@ import pa.bibliotech.exception.BusinessRuleException;
 import pa.bibliotech.exception.EntityNotFoundException;
 import pa.bibliotech.repository.BookRepository;
 
-/** Reglas de negocio de libros. Valida ANTES de tocar la base. */
+
 public class BookService {
     private static final Logger LOGGER = Logger.getLogger(BookService.class.getName());
-    private final BookRepository bookRepository;              // depende de la interfaz (D de SOLID)
+    private final BookRepository bookRepository;              
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import pa.bibliotech.domain.Book;
 
-/** Contrato de acceso a libros. No menciona SQL (abstracción). */
+
 public interface BookRepository {
     Optional<Book> findById(long id);
     Optional<Book> findByIsbn(String isbn);
