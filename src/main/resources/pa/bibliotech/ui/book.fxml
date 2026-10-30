@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pa.bibliotech.ui.BookController" prefWidth="1000" prefHeight="580">
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+    <top>
+        <HBox spacing="8">
+            <padding><Insets bottom="10"/></padding>
+            <Button text="Menú" onAction="#onBack"/>
+            <TextField fx:id="txtSearch" promptText="Buscar por título o autor"
+                       HBox.hgrow="ALWAYS" onAction="#onSearch"/>
+            <Button text="Buscar" onAction="#onSearch"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tblBooks">
+            <columns>
+                <TableColumn fx:id="colIsbn" text="ISBN" prefWidth="120"/>
+                <TableColumn fx:id="colTitle" text="Título" prefWidth="220"/>
+                <TableColumn fx:id="colAuthor" text="Autor" prefWidth="170"/>
+                <TableColumn fx:id="colYear" text="Año" prefWidth="60"/>
+                <TableColumn fx:id="colTotal" text="Total" prefWidth="60"/>
+                <TableColumn fx:id="colAvailable" text="Disp." prefWidth="60"/>
+            </columns>
+        </TableView>
+    </center>
+    <right>
+        <VBox spacing="5" prefWidth="270">
+            <padding><Insets left="12"/></padding>
+            <Label text="Datos del libro" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="ISBN (10 o 13 dígitos)"/>
+            <TextField fx:id="txtIsbn"/>
+            <Label text="Título"/>
+            <TextField fx:id="txtTitle"/>
+            <Label text="Autor"/>
+            <TextField fx:id="txtAuthor"/>
+            <Label text="Año de publicación"/>
+            <TextField fx:id="txtYear"/>
+            <Label text="Ejemplares"/>
+            <TextField fx:id="txtCopies"/>
+            <HBox spacing="6">
+                <padding><Insets top="8"/></padding>
+                <Button text="Nuevo" onAction="#onNew"/>
+                <Button text="Guardar" onAction="#onSave"/>
+                <Button text="Eliminar" onAction="#onDelete"/>
+            </HBox>
+            <Label fx:id="lblMessage" wrapText="true"/>
+        </VBox>
+    </right>
+</BorderPane>
