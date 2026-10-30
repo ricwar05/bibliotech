@@ -25,30 +25,36 @@ Java 21 · JavaFX 21 · Maven · Supabase (PostgreSQL) · JDBC · jBCrypt · JUn
 ## Ejecución
 mvn clean javafx:run
 
-## Pruebas
-mvn test
+Por ahora la aplicación abre directamente la pantalla de libros. Cuando se integre el
+login, abrirá primero la pantalla de inicio de sesión.
 
-## Usuarios de prueba
-- `admin` (rol ADMIN) y `biblio` (rol LIBRARIAN).
-- Las contraseñas se entregan al Prof por  privado.
+## Estado de la Fase 1
+| Módulo | Estado |
+|---|---|
+| Conexión a Supabase (Singleton) | Hecho |
+| Excepciones propias y logging | Hecho |
+| CRUD de libros | Hecho |
+| CRUD de socios | Pendiente |
+| Login con bcrypt y menú por rol | Pendiente |
+| Patrones Strategy y Factory Method | Pendiente |
 
 ## Estructura del código (paquete `pa.bibliotech`)
 | Paquete | Responsabilidad |
 |---|---|
 | `config` | Lectura de configuración y conexión única (Singleton) |
-| `domain` | Entidades del negocio: Book, Member, Loan, User |
+| `domain` | Entidades del negocio (hoy: `Book`) |
 | `repository` | Interfaces de acceso a datos |
 | `repository.jdbc` | Implementación con JDBC y PreparedStatement |
 | `service` | Reglas de negocio y validaciones |
-| `strategy` | Cálculo de multas (patrón Strategy) |
-| `report` | Exportadores de reportes (patrón Factory Method) |
 | `ui` | Controladores de las pantallas JavaFX |
 | `exception` | Excepciones propias |
 
+Carpetas reservadas para lo pendiente: `strategy` (multas), `report` (exportadores) y `util`.
+
 ## Documentación
-   - `docs/mapa-solid.md`: evidencia de SOLID y patrones
-   - `docs/capturas/`: capturas de Supabase y de la aplicación
-   - Diagrama de clases y diccionario de datos: en `docs/` (imagen y PDF, a cargo de Nelson)
+- `docs/mapa-solid.md`: evidencia de SOLID y patrones
+- `docs/capturas/`: capturas de Supabase y de la aplicación
+- Diagrama de clases y diccionario de datos: en `docs/` (imagen y PDF, a cargo de Nelson)
 
 ## Integrantes
 - Ricardo Guerra: líder, repositorio, conexión y catálogo de libros
