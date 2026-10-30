@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-//Patrón Singleton
+
 public final class DatabaseConnection {
     private static DatabaseConnection instance;
     private final Connection connection;

@@ -15,14 +15,14 @@ import pa.bibliotech.exception.DataAccessException;
 import pa.bibliotech.exception.EntityNotFoundException;
 import pa.bibliotech.repository.BookRepository;
 
-/** Implementación JDBC: el único lugar con SQL de libros. Patrón Repository/DAO. */
+
 public class JdbcBookRepository implements BookRepository {
     private static final Logger LOGGER = Logger.getLogger(JdbcBookRepository.class.getName());
     private static final String COLUMNS =
             "id, isbn, title, author, publication_year, total_copies, available_copies";
     private final Connection connection;
 
-    public JdbcBookRepository(Connection connection) {     // la conexión llega desde fuera
+    public JdbcBookRepository(Connection connection) {     
         this.connection = connection;
     }
 
@@ -75,7 +75,7 @@ public class JdbcBookRepository implements BookRepository {
         String sql = "SELECT " + COLUMNS + " FROM books "
                    + "WHERE title ILIKE ? OR author ILIKE ? ORDER BY title";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            String pattern = "%" + text + "%";              // el % va en el parámetro, no en el SQL
+            String pattern = "%" + text + "%";              
             ps.setString(1, pattern);
             ps.setString(2, pattern);
             List<Book> result = new ArrayList<>();
@@ -142,7 +142,7 @@ public class JdbcBookRepository implements BookRepository {
                 throw new EntityNotFoundException("No existe el libro con id " + id);
             }
         } catch (SQLException e) {
-            if ("23503".equals(e.getSQLState())) {          // el libro tiene préstamos
+            if ("23503".equals(e.getSQLState())) {          
                 throw new BusinessRuleException("No se puede eliminar: el libro tiene préstamos registrados");
             }
             LOGGER.log(Level.SEVERE, "Error al eliminar el libro " + id, e);
@@ -150,7 +150,7 @@ public class JdbcBookRepository implements BookRepository {
         }
     }
 
-    /** Convierte una fila de la tabla en un objeto Book. */
+    
     private Book mapRow(ResultSet rs) throws SQLException {
         return new Book(rs.getLong("id"), rs.getString("isbn"), rs.getString("title"),
                 rs.getString("author"), rs.getInt("publication_year"),

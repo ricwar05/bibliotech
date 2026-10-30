@@ -22,7 +22,7 @@ public class App extends Application {
     public void start(Stage stage) {
         Connection connection;
         try {
-            connection = DatabaseConnection.getInstance().getConnection();   // Singleton
+            connection = DatabaseConnection.getInstance().getConnection();   
             LOGGER.info("Conexión a Supabase OK");
         } catch (SQLException | IllegalStateException e) {
             LOGGER.log(Level.SEVERE, "No se pudo conectar a la base de datos", e);
