@@ -1,5 +1,6 @@
 package pa.bibliotech.report;
 
-public class ReportFormat {
-
+public enum ReportFormat {
+    CSV,
+    PDF
 }
