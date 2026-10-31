@@ -11,4 +11,6 @@ INSERT INTO members (document_id, full_name, email, phone) VALUES
   ('8-222-2222', 'Luis Gómez',    'luis.gomez@ejemplo.com', '6000-0002'),
   ('PE-333-333', 'María Rodríguez', NULL,                    '6000-0003');
 
--- Pedro agrega aquí los usuarios del sistema (admin y biblio) con sus hashes bcrypt.
+INSERT INTO app_users (username, password_hash, full_name, role, active) VALUES 
+('admin', '$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW', 'Administrador Principal', 'ADMIN', TRUE),
+('biblio', '$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW', 'Bibliotecario Turno', 'LIBRARIAN', TRUE);
