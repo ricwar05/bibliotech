@@ -44,6 +44,14 @@ public class Book {
         availableCopies--;
     }
 
+
+        public void increaseAvailableCopies() {
+        if (availableCopies >= totalCopies) {
+            throw new BusinessRuleException("Todas las copias de " + title + " ya están disponibles");
+        }
+        availableCopies++;
+    }
+
     public void updateDetails(String title, String author, int publicationYear) {
         this.title = title;
         this.author = author;
