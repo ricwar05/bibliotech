@@ -1,9 +1,13 @@
 package pa.bibliotech.ui;
 
+import java.util.Optional;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import pa.bibliotech.domain.User;
+import pa.bibliotech.service.AuthService;
 
 public class LoginController {
 
@@ -12,6 +16,14 @@ public class LoginController {
 
     @FXML
     private PasswordField passwordField;
+
+    private final AuthService authService;
+    private final java.util.function.Consumer<User> onLoginSuccess;
+
+    public LoginController(AuthService authService, java.util.function.Consumer<User> onLoginSuccess) {
+        this.authService = authService;
+        this.onLoginSuccess = onLoginSuccess;
+    }
 
     @FXML
     private void handleLogin() {
@@ -23,11 +35,16 @@ public class LoginController {
             return;
         }
 
-        showAlert("Éxito", "Bienvenido al sistema " + username);
+        Optional<User> authenticatedUser = authService.authenticate(username, password);
+        if (authenticatedUser.isPresent()) {
+            onLoginSuccess.accept(authenticatedUser.get());
+        } else {
+            showAlert("Error de autenticación", "Usuario o contraseña incorrectos.");
+        }
     }
 
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
