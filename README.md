@@ -30,17 +30,21 @@ login, abrirá primero la pantalla de inicio de sesión.
 
 ## Estado del proyecto 
 
-## Fase 1
+## Estado del proyecto
+
+### Fase 1
 | Módulo | Estado |
+|---|---|
 | Conexión a Supabase (Singleton) | Hecho |
 | Excepciones propias y logging | Hecho |
 | CRUD de libros | Hecho |
-| CRUD de socios | Pendiente |
-| Login con bcrypt y menú por rol | Pendiente |
-| Patrones Strategy y Factory Method | Pendiente |
+| CRUD de socios | Hecho |
+| Login con bcrypt y menú por rol | En progreso |
+| Patrones Strategy y Factory Method | En progreso |
 
 ### Fase 2
 | Módulo | Estado |
+|---|---|
 | Ajustes de dominio (devolución de copias y excepciones) | Hecho |
 | Diagrama entidad-relación y diccionario de datos | En progreso |
 | Repositorio de préstamos | Pendiente |
@@ -55,7 +59,7 @@ login, abrirá primero la pantalla de inicio de sesión.
 | Paquete | Responsabilidad |
 |---|---|
 | `config` | Lectura de configuración y conexión única (Singleton) |
-|| `domain` | Entidades del negocio (hoy: `Book`, `Member`) |
+| `domain` | Entidades del negocio (hoy: `Book`, `Member`) |
 | `repository` | Interfaces de acceso a datos |
 | `repository.jdbc` | Implementación con JDBC y PreparedStatement |
 | `service` | Reglas de negocio y validaciones |
