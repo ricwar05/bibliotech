@@ -28,8 +28,6 @@ mvn clean javafx:run
 Por ahora la aplicación abre directamente la pantalla de libros. Cuando se integre el
 login, abrirá primero la pantalla de inicio de sesión.
 
-## Estado del proyecto 
-
 ## Estado del proyecto
 
 ### Fase 1
