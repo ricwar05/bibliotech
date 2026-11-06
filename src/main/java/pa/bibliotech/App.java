@@ -5,15 +5,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import pa.bibliotech.config.DatabaseConnection;
-import pa.bibliotech.repository.jdbc.JdbcBookRepository;
-import pa.bibliotech.service.BookService;
-import pa.bibliotech.ui.BookController;
 
 public class App extends Application {
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
@@ -22,7 +20,7 @@ public class App extends Application {
     public void start(Stage stage) {
         Connection connection;
         try {
-            connection = DatabaseConnection.getInstance().getConnection();   
+            connection = DatabaseConnection.getInstance().getConnection();
             LOGGER.info("Conexión a Supabase OK");
         } catch (SQLException | IllegalStateException e) {
             LOGGER.log(Level.SEVERE, "No se pudo conectar a la base de datos", e);
@@ -31,17 +29,13 @@ public class App extends Application {
             return;
         }
 
-        
-        BookService bookService = new BookService(new JdbcBookRepository(connection));
-
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("ui/book.fxml"));
-            loader.setControllerFactory(type -> new BookController(bookService, () -> { }));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("/pa/bibliotech/ui/login.fxml"));
             stage.setScene(new Scene(loader.load()));
-            stage.setTitle("BiblioTech Panamá · Libros");
+            stage.setTitle("BiblioTech Panamá · Iniciar Sesión");
             stage.show();
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "No se pudo abrir la pantalla de libros", e);
+            LOGGER.log(Level.SEVERE, "No se pudo abrir la pantalla de login", e);
         }
     }
 
