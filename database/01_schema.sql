@@ -1,11 +1,7 @@
--- BiblioTech Panamá · Esquema de la Fase 1
--- Ejecutar en el SQL Editor de Supabase. Orden: este archivo y luego 02_seed.sql
-
--- Usuarios del sistema (no se llama "users" para no confundir con auth.users de Supabase)
 CREATE TABLE app_users (
     id            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username      VARCHAR(50)  NOT NULL UNIQUE,
-    password_hash VARCHAR(60)  NOT NULL,                -- hash bcrypt, nunca la clave
+    password_hash VARCHAR(60)  NOT NULL,
     full_name     VARCHAR(120) NOT NULL,
     role          VARCHAR(20)  NOT NULL CHECK (role IN ('ADMIN', 'LIBRARIAN')),
     active        BOOLEAN      NOT NULL DEFAULT TRUE,
@@ -25,7 +21,7 @@ CREATE TABLE books (
 
 CREATE TABLE members (
     id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    document_id VARCHAR(20)  NOT NULL UNIQUE,            -- cédula o pasaporte
+    document_id VARCHAR(20)  NOT NULL UNIQUE,
     full_name   VARCHAR(120) NOT NULL,
     email       VARCHAR(120) UNIQUE,
     phone       VARCHAR(20),
@@ -43,8 +39,6 @@ CREATE TABLE loans (
     CHECK (due_date >= loan_date)
 );
 
--- Seguridad: activa RLS para bloquear el acceso por la API pública de Supabase.
--- La app de escritorio se conecta como dueño de las tablas (postgres) y no se ve afectada.
 ALTER TABLE app_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE books     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE members   ENABLE ROW LEVEL SECURITY;
