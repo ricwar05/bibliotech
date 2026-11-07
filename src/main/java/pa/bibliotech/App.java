@@ -28,6 +28,7 @@ public class App extends Application {
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
     private Connection connection;
     private Stage primaryStage;
+    private User currentUser;
 
     @Override
     public void start(Stage stage) {
@@ -59,10 +60,13 @@ public class App extends Application {
     }
 
     private void showMainMenuView(User user) {
+        if (user != null) {
+            currentUser = user;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/pa/bibliotech/ui/main-menu.fxml"));
-            loader.setControllerFactory(
-                    type -> new MainMenuController(user, this::showBooksView, this::showMembersView));
+            loader.setControllerFactory(type -> new MainMenuController(currentUser, this::showBooksView,
+                    this::showMembersView, this::logout));
             primaryStage.setScene(new Scene(loader.load()));
             primaryStage.setTitle("BiblioTech Panamá · Menú Principal");
         } catch (IOException e) {
@@ -74,7 +78,7 @@ public class App extends Application {
         try {
             BookService bookService = new BookService(new JdbcBookRepository(connection));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/pa/bibliotech/ui/book.fxml"));
-            loader.setControllerFactory(type -> new BookController(bookService, () -> showMainMenuView(null)));
+            loader.setControllerFactory(type -> new BookController(bookService, () -> showMainMenuView(currentUser)));
             primaryStage.setScene(new Scene(loader.load()));
             primaryStage.setTitle("BiblioTech Panamá · Libros");
         } catch (IOException e) {
@@ -86,12 +90,18 @@ public class App extends Application {
         try {
             MemberService memberService = new MemberService(new JdbcMemberRepository(connection));
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/pa/bibliotech/ui/member.fxml"));
-            loader.setControllerFactory(type -> new MemberController(memberService, () -> showMainMenuView(null)));
+            loader.setControllerFactory(
+                    type -> new MemberController(memberService, () -> showMainMenuView(currentUser)));
             primaryStage.setScene(new Scene(loader.load()));
             primaryStage.setTitle("BiblioTech Panamá · Socios");
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "No se pudo abrir socios", e);
         }
+    }
+
+    private void logout() {
+        currentUser = null;
+        showLoginView();
     }
 
     public static void main(String[] args) {
