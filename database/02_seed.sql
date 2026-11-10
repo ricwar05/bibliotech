@@ -10,6 +10,6 @@ INSERT INTO members (document_id, full_name, email, phone) VALUES
   ('8-222-2222', 'Luis Gómez',    'luis.gomez@ejemplo.com', '6000-0002'),
   ('PE-333-333', 'María Rodríguez', NULL,                    '6000-0003');
 
-  INSERT INTO app_users (username, password_hash, full_name, role) VALUES
-  ('admin', '$2a$12$eImiTXuWVxfM37uY4JANjOL.88KV7VO59E/7JzMkWz0S0zSg5.3e.', 'Administrador', 'ADMIN'),
-  ('biblio', '$2a$12$eImiTXuWVxfM37uY4JANjOL.88KV7VO59E/7JzMkWz0S0zSg5.3e.', 'Bibliotecario de prueba', 'LIBRARIAN');
+ INSERT INTO app_users (username, password_hash, full_name, role) VALUES
+  ('admin',  '$2a$12$eImITXuwVxFm37uY4JANjOL.88KV7VO59E/7JzMkWz0S0zSg5.3e.', 'Administrador', 'ADMIN'),
+  ('biblio', '$2a$12$9qXk2vW8fG3zL5mP4xQ8UeL1vK2sM6nP9rT3yXvB5cN7mD2sF4gH8.', 'Bibliotecario de prueba', 'LIBRARIAN');
