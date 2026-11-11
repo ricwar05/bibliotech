@@ -9,3 +9,7 @@ INSERT INTO members (document_id, full_name, email, phone) VALUES
   ('8-111-1111', 'Ana Pérez',     'ana.perez@ejemplo.com',  '6000-0001'),
   ('8-222-2222', 'Luis Gómez',    'luis.gomez@ejemplo.com', '6000-0002'),
   ('PE-333-333', 'María Rodríguez', NULL,                    '6000-0003');
+
+INSERT INTO app_users (username, password_hash, full_name, role) VALUES
+  ('admin',  '$2a$12$IA6vD7PHQxjg9mVk61f9HOG.Dr7P.lVDVmv28BPf0vZAXNWBdNeSi', 'Administrador', 'ADMIN'),
+  ('biblio', '$2a$12$y6OW7zRYEfWUV4PNO/DlY.yyFzM94d/TgmgJQT1SnEiKsvdH8jnGC', 'Bibliotecario de prueba', 'LIBRARIAN');
