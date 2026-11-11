@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import pa.bibliotech.domain.User;
+import pa.bibliotech.exception.DataAccessException;
 import pa.bibliotech.service.AuthService;
 
 public class LoginController {
@@ -35,11 +36,15 @@ public class LoginController {
             return;
         }
 
-        Optional<User> authenticatedUser = authService.authenticate(username, password);
-        if (authenticatedUser.isPresent()) {
-            onLoginSuccess.accept(authenticatedUser.get());
-        } else {
-            showAlert("Error de autenticación", "Usuario o contraseña incorrectos.");
+        try {
+            Optional<User> authenticatedUser = authService.authenticate(username, password);
+            if (authenticatedUser.isPresent()) {
+                onLoginSuccess.accept(authenticatedUser.get());
+            } else {
+                showAlert("Error de autenticación", "Usuario o contraseña incorrectos.");
+            }
+        } catch (DataAccessException e) {
+            showAlert("Error de conexión", "No se pudo conectar con la base de datos. Intente de nuevo.");
         }
     }
 
