@@ -5,11 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import pa.bibliotech.domain.User;
+import pa.bibliotech.exception.DataAccessException;
 import pa.bibliotech.repository.UserRepository;
 
 public class JdbcUserRepository implements UserRepository {
+    private static final Logger LOGGER = Logger.getLogger(JdbcUserRepository.class.getName());
     private final Connection connection;
 
     public JdbcUserRepository(Connection connection) {
@@ -18,7 +22,7 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findByUsername(String username) {
-        String sql = "SELECT id, username, password_hash, full_name, role, active FROM users WHERE username = ?";
+        String sql = "SELECT id, username, password_hash, full_name, role, active FROM app_users WHERE username = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -34,7 +38,8 @@ public class JdbcUserRepository implements UserRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error al buscar usuario: " + username, e);
+            throw new DataAccessException("No se pudo consultar el usuario", e);
         }
         return Optional.empty();
     }
