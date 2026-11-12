@@ -7,6 +7,6 @@ import java.util.List;
 public class PdfReportExporter implements ReportExporter {
     @Override
     public void export(List<String[]> rows, Path destination) throws IOException {
-
+        throw new UnsupportedOperationException("Exportación a PDF pendiente de una fase siguiente");
     }
 }

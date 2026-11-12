@@ -1,13 +1,12 @@
 package pa.bibliotech.report;
 
-public final class ReportExporterFactory {
-    private ReportExporterFactory() {
-    }
-
+public class ReportExporterFactory {
     public static ReportExporter create(ReportFormat format) {
-        return switch (format) {
-            case CSV -> new CsvReportExporter();
-            case PDF -> new PdfReportExporter();
-        };
+        if (format == ReportFormat.CSV) {
+            return new CsvReportExporter();
+        } else if (format == ReportFormat.PDF) {
+            return new PdfReportExporter();
+        }
+        throw new IllegalArgumentException("Formato no soportado: " + format);
     }
 }
