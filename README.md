@@ -38,7 +38,7 @@ login, abrirá primero la pantalla de inicio de sesión.
 | CRUD de libros | Hecho |
 | CRUD de socios | Hecho |
 | Login con bcrypt y menú por rol | En progreso |
-| Patrones Strategy y Factory Method | En progreso |
+| Patrones Strategy y Factory Method | Hecho |
 
 ### Fase 2
 | Módulo | Estado |
@@ -64,7 +64,6 @@ login, abrirá primero la pantalla de inicio de sesión.
 | `ui` | Controladores de las pantallas JavaFX |
 | `exception` | Excepciones propias |
 
-Carpetas reservadas para lo pendiente: `strategy` (multas), `report` (exportadores) y `util`.
 
 ## Documentación
 - `docs/mapa-solid.md`: evidencia de SOLID y patrones
