@@ -37,8 +37,8 @@ login, abrirá primero la pantalla de inicio de sesión.
 | Excepciones propias y logging | Hecho |
 | CRUD de libros | Hecho |
 | CRUD de socios | Hecho |
-| Login con bcrypt y menú por rol | En progreso |
-| Patrones Strategy y Factory Method | Hecho |
+| Login con bcrypt y menú por rol | Hecho |
+| Patrones Strategy y Factory Method | En Progreso |
 
 ### Fase 2
 | Módulo | Estado |
@@ -63,7 +63,6 @@ login, abrirá primero la pantalla de inicio de sesión.
 | `service` | Reglas de negocio y validaciones |
 | `ui` | Controladores de las pantallas JavaFX |
 | `exception` | Excepciones propias |
-
 
 ## Documentación
 - `docs/mapa-solid.md`: evidencia de SOLID y patrones
