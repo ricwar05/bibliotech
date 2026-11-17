@@ -110,14 +110,14 @@ public class BookController {
     }
 
      
-    private void run(Runnable action) {
+        private void run(Runnable action) {
         lblMessage.setText("");
         try {
             action.run();
-        } catch (DomainException e) {                  
-            showError(e.getMessage());
         } catch (DataAccessException e) {
             showError("Error con la base de datos. Intente de nuevo.");
+        } catch (DomainException e) {
+            showError(e.getMessage());
         }
     }
 
