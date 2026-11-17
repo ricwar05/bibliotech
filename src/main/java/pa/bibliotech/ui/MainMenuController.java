@@ -15,12 +15,15 @@ public class MainMenuController {
     private final User user;
     private final Runnable openBooksAction;
     private final Runnable openMembersAction;
+    private final Runnable openLoansAction;
     private final Runnable logoutAction;
 
-    public MainMenuController(User user, Runnable openBooksAction, Runnable openMembersAction, Runnable logoutAction) {
+    public MainMenuController(User user, Runnable openBooksAction, Runnable openMembersAction,
+            Runnable openLoansAction, Runnable logoutAction) {
         this.user = user;
         this.openBooksAction = openBooksAction;
         this.openMembersAction = openMembersAction;
+        this.openLoansAction = openLoansAction;
         this.logoutAction = logoutAction;
     }
 
@@ -40,6 +43,11 @@ public class MainMenuController {
     @FXML
     private void handleOpenMembers() {
         openMembersAction.run();
+    }
+
+    @FXML
+    private void handleOpenLoans() {
+        openLoansAction.run();
     }
 
     @FXML
