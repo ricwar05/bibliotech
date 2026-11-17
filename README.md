@@ -38,7 +38,7 @@ login, abrirá primero la pantalla de inicio de sesión.
 | CRUD de libros | Hecho |
 | CRUD de socios | Hecho |
 | Login con bcrypt y menú por rol | Hecho |
-| Patrones Strategy y Factory Method | En Progreso |
+| Patrones Strategy y Factory Method | Hecho|
 
 ### Fase 2
 | Módulo | Estado |
