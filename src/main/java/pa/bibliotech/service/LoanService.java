@@ -69,6 +69,23 @@ public class LoanService {
         return saved;
     }
 
+    public BigDecimal returnLoan(long loanId, LocalDate returnDate) {
+        Loan loan = loanRepository.findById(loanId)
+                .orElseThrow(() -> new EntityNotFoundException("No existe el préstamo con id " + loanId));
+        Book book = bookRepository.findById(loan.getBookId())
+                .orElseThrow(() -> new EntityNotFoundException("No existe el libro con id " + loan.getBookId()));
+        BigDecimal fine = fineStrategy.calculate(loan, returnDate);
+        loan.registerReturn(returnDate, fine);
+        inTransaction(() -> {
+            loanRepository.update(loan);
+            book.increaseAvailableCopies();
+            bookRepository.update(book);
+            return null;
+        });
+        LOGGER.info("Préstamo " + loanId + " devuelto con multa de " + fine);
+        return fine;
+    }
+
     private <T> T inTransaction(Supplier<T> work) {
         try {
             connection.setAutoCommit(false);
