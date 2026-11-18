@@ -28,28 +28,41 @@ mvn clean javafx:run
 Por ahora la aplicación abre directamente la pantalla de libros. Cuando se integre el
 login, abrirá primero la pantalla de inicio de sesión.
 
-## Estado de la Fase 1
+## Estado del proyecto
+
+### Fase 1
 | Módulo | Estado |
 |---|---|
 | Conexión a Supabase (Singleton) | Hecho |
 | Excepciones propias y logging | Hecho |
 | CRUD de libros | Hecho |
-| CRUD de socios | Pendiente |
-| Login con bcrypt y menú por rol | Pendiente |
-| Patrones Strategy y Factory Method | Pendiente |
+| CRUD de socios | Hecho |
+| Login con bcrypt y menú por rol | Hecho |
+| Patrones Strategy y Factory Method | Hecho|
+
+### Fase 2
+| Módulo | Estado |
+|---|---|
+| Ajustes de dominio (devolución de copias y excepciones) | Hecho |
+| Diagrama entidad-relación y diccionario de datos | En progreso |
+| Repositorio de préstamos | Pendiente |
+| Registrar préstamo con transacción | Pendiente |
+| Devolución con multa (Strategy) | Pendiente |
+| Pantalla de préstamos | Pendiente |
+| Pruebas JUnit | Pendiente |
+| Diagramas de clases, secuencia y flujo | Pendiente |
+| Mapa SOLID de la fase 2 | Pendiente |
 
 ## Estructura del código (paquete `pa.bibliotech`)
 | Paquete | Responsabilidad |
 |---|---|
 | `config` | Lectura de configuración y conexión única (Singleton) |
-| `domain` | Entidades del negocio (hoy: `Book`) |
+| `domain` | Entidades del negocio (hoy: `Book`, `Member`) |
 | `repository` | Interfaces de acceso a datos |
 | `repository.jdbc` | Implementación con JDBC y PreparedStatement |
 | `service` | Reglas de negocio y validaciones |
 | `ui` | Controladores de las pantallas JavaFX |
 | `exception` | Excepciones propias |
-
-Carpetas reservadas para lo pendiente: `strategy` (multas), `report` (exportadores) y `util`.
 
 ## Documentación
 - `docs/mapa-solid.md`: evidencia de SOLID y patrones
