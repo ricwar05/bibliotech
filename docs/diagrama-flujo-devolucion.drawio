@@ -1,0 +1,112 @@
+<mxGraphModel dx="1000" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    
+    <!-- 1. Óvalo Inicio -->
+    <mxCell id="n1" value="Inicio" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="300" y="20" width="140" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- 2. Paralelogramo -->
+    <mxCell id="n2" value="El bibliotecario selecciona el préstamo y pulsa Devolver" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="235" y="100" width="270" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- 3. Rectángulo -->
+    <mxCell id="n3" value="Buscar el préstamo y su libro" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="260" y="190" width="220" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- 4. Rombo: ¿El préstamo ya fue devuelto? -->
+    <mxCell id="n4" value="¿El préstamo ya fue devuelto?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+      <mxGeometry x="270" y="270" width="200" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- 4-Sí -> Paralelogramo error -->
+    <mxCell id="n4_err" value="Mostrar error: el préstamo ya fue devuelto" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+      <mxGeometry x="540" y="285" width="250" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- 4-Sí -> Óvalo Fin error -->
+    <mxCell id="n4_fin" value="Fin" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="605" y="380" width="120" height="45" as="geometry" />
+    </mxCell>
+
+    <!-- 5. Rombo: ¿La fecha de devolución es después del vencimiento? -->
+    <mxCell id="n5" value="¿La fecha de devolución es después del vencimiento?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="255" y="400" width="230" height="100" as="geometry" />
+    </mxCell>
+
+    <!-- 5-No -> Multa = 0 -->
+    <mxCell id="n5_no" value="Multa = 0" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="70" y="425" width="130" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- 5-Sí -> Multa = días * 0.50 -->
+    <mxCell id="n5_si" value="Multa = días de retraso × B/. 0.50" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="260" y="540" width="220" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- 5-Sí -> Rombo tope 10.00 -->
+    <mxCell id="n5_tope" value="¿La multa pasa de B/. 10.00?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+      <mxGeometry x="270" y="620" width="200" height="90" as="geometry" />
+    </mxCell>
+
+    <!-- 5-Tope-Sí -> Multa = B/. 10.00 -->
+    <mxCell id="n5_tope_si" value="Multa = B/. 10.00" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+      <mxGeometry x="540" y="640" width="150" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- 6. Rectángulo: Registrar la devolución -->
+    <mxCell id="n6" value="Registrar la devolución con la fecha y la multa" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="245" y="750" width="250" height="55" as="geometry" />
+    </mxCell>
+
+    <!-- 7. Rectángulo: En una transacción -->
+    <mxCell id="n7" value="En una transacción: guardar el préstamo y sumar 1 ejemplar disponible al libro" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="230" y="835" width="280" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- 8. Paralelogramo: Mostrar Libro devuelto -->
+    <mxCell id="n8" value="Mostrar &quot;Libro devuelto&quot; y la multa" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+      <mxGeometry x="240" y="925" width="260" height="55" as="geometry" />
+    </mxCell>
+
+    <!-- 9. Óvalo Fin -->
+    <mxCell id="n9" value="Fin" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="300" y="1010" width="140" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- FLECHAS -->
+    <mxCell id="e1" edge="1" parent="1" source="n1" target="n2"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e2" edge="1" parent="1" source="n2" target="n3"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e3" edge="1" parent="1" source="n3" target="n4"><mxGeometry relative="1" as="geometry" /></mxCell>
+    
+    <mxCell id="e4_si" value="Sí" edge="1" parent="1" source="n4" target="n4_err"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e4_fin" edge="1" parent="1" source="n4_err" target="n4_fin"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e4_no" value="No" edge="1" parent="1" source="n4" target="n5"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <mxCell id="e5_no" value="No" edge="1" parent="1" source="n5" target="n5_no"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e5_si" value="Sí" edge="1" parent="1" source="n5" target="n5_si"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e5_calc" edge="1" parent="1" source="n5_si" target="n5_tope"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e5_tope_si" value="Sí" edge="1" parent="1" source="n5_tope" target="n5_tope_si"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Unión de ramas de multa hacia n6 -->
+    <mxCell id="e6_no" value="No" edge="1" parent="1" source="n5_tope" target="n6"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e6_izq" edge="1" parent="1" source="n5_no" target="n6">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points"><mxPoint x="135" y="777" /></Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="e6_der" edge="1" parent="1" source="n5_tope_si" target="n6">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points"><mxPoint x="615" y="777" /></Array>
+      </mxGeometry>
+    </mxCell>
+
+    <mxCell id="e7" edge="1" parent="1" source="n6" target="n7"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e8" edge="1" parent="1" source="n7" target="n8"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e9" edge="1" parent="1" source="n8" target="n9"><mxGeometry relative="1" as="geometry" /></mxCell>
+  </root>
+</mxGraphModel>
