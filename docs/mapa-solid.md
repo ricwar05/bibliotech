@@ -16,5 +16,14 @@ Estado al cierre de la Fase 1. Lo marcado como **pendiente** todavía no está e
 |---|---|---|
 | Singleton | `config/DatabaseConnection` | Hecho |
 | Repository / DAO | `repository/BookRepository` + `repository/jdbc/JdbcBookRepository` | Hecho |
-| Strategy | `strategy/FineStrategy` y sus implementaciones | Pendiente |
-| Factory Method | `report/ReportExporterFactory` | Pendiente |
+| Strategy | `strategy/FineStrategy` y sus implementaciones | Hecho |
+| Factory Method | `report/ReportExporterFactory` | Hecho |
+
+## Fase 2
+| Principio | Dónde mostrarlo | Explicación |
+|---|---|---|
+| S · Responsabilidad única | `LoanService`, `JdbcLoanRepository`, `LoanController` | La pantalla de préstamos, las reglas de negocio y las consultas SQL (en Supabase) están separadas en clases distintas. |
+| O · Abierto/cerrado | `FineStrategy` | Si se necesita una nueva forma de calcular multas, se crea una nueva clase sin modificar `LoanService`. |
+| L · Sustitución de Liskov | `PerDayFineStrategy` y `CappedFineStrategy` | Cualquiera de las dos implementaciones se puede usar donde se pide `FineStrategy` sin fallar. |
+| I · Segregación de interfaces | `LoanRepository` | Esta interfaz solo define las operaciones necesarias para préstamos, sin mezclar métodos de libros ni socios. |
+| D · Inversión de dependencias | Constructor de `LoanService` y `App.showLoansView()` | `LoanService` recibe interfaces por constructor y únicamente `App` se encarga de crear las clases concretas. |
