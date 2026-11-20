@@ -16,6 +16,7 @@
         <Label fx:id="welcomeLabel" />
         <Button text="Gestión de Libros" onAction="#handleOpenBooks" prefWidth="220.0" />
         <Button text="Gestión de Socios" onAction="#handleOpenMembers" prefWidth="220.0" />
+        <Button text="Gestión de Préstamos" onAction="#handleOpenLoans" prefWidth="220.0" />
         <Button fx:id="usersButton" text="Usuarios (solo administrador)" onAction="#handleUsers" prefWidth="220.0" />
         <Button text="Cerrar sesión" onAction="#handleLogout" prefWidth="220.0" />
     </children>
