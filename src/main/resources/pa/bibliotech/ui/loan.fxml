@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pa.bibliotech.ui.LoanController" prefWidth="1000" prefHeight="580">
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+    <top>
+        <HBox spacing="8">
+            <padding><Insets bottom="10"/></padding>
+            <Button text="Menú" onAction="#onBack"/>
+            <Label text="Préstamos activos" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tblLoans">
+            <columns>
+                <TableColumn fx:id="colId" text="N.º" prefWidth="50"/>
+                <TableColumn fx:id="colBook" text="Libro" prefWidth="250"/>
+                <TableColumn fx:id="colMember" text="Socio" prefWidth="200"/>
+                <TableColumn fx:id="colLoanDate" text="Prestado" prefWidth="100"/>
+                <TableColumn fx:id="colDueDate" text="Vence" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+    <right>
+        <VBox spacing="6" prefWidth="290">
+            <padding><Insets left="12"/></padding>
+            <Label text="Nuevo préstamo" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="Libro (solo con ejemplares disponibles)"/>
+            <ComboBox fx:id="cmbBook" maxWidth="Infinity"/>
+            <Label text="Socio (solo activos)"/>
+            <ComboBox fx:id="cmbMember" maxWidth="Infinity"/>
+            <Button text="Prestar" onAction="#onLend"/>
+            <Separator>
+                <padding><Insets top="10" bottom="10"/></padding>
+            </Separator>
+            <Label text="Devolución" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <Label text="Seleccione un préstamo de la tabla" wrapText="true"/>
+            <Button text="Devolver" onAction="#onReturn"/>
+            <Label fx:id="lblMessage" wrapText="true"/>
+        </VBox>
+    </right>
+</BorderPane>
