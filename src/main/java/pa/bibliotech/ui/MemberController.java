@@ -2,6 +2,8 @@ package pa.bibliotech.ui;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -16,22 +18,38 @@ import pa.bibliotech.exception.DomainException;
 import pa.bibliotech.service.MemberService;
 
 public class MemberController {
-    @FXML private TableView<Member> tblMembers;
-    @FXML private TableColumn<Member, String> colDocument;
-    @FXML private TableColumn<Member, String> colName;
-    @FXML private TableColumn<Member, String> colEmail;
-    @FXML private TableColumn<Member, String> colPhone;
-    @FXML private TableColumn<Member, String> colStatus;
-    @FXML private TextField txtSearch;
-    @FXML private TextField txtDocument;
-    @FXML private TextField txtName;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtPhone;
-    @FXML private CheckBox chkActive;
-    @FXML private Label lblMessage;
+    @FXML
+    private TableView<Member> tblMembers;
+    @FXML
+    private TableColumn<Member, String> colDocument;
+    @FXML
+    private TableColumn<Member, String> colName;
+    @FXML
+    private TableColumn<Member, String> colEmail;
+    @FXML
+    private TableColumn<Member, String> colPhone;
+    @FXML
+    private TableColumn<Member, String> colStatus;
+    @FXML
+    private TextField txtSearch;
+    @FXML
+    private TextField txtDocument;
+    @FXML
+    private TextField txtName;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtPhone;
+    @FXML
+    private CheckBox chkActive;
+    @FXML
+    private Label lblMessage;
 
     private final MemberService memberService;
     private final Runnable onBack;
+
+    private final ObservableList<Member> members = FXCollections.observableArrayList();
+    private final FilteredList<Member> filteredMembers = new FilteredList<>(members, member -> true);
 
     public MemberController(MemberService memberService, Runnable onBack) {
         this.memberService = memberService;
@@ -44,8 +62,11 @@ public class MemberController {
         colName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFullName()));
         colEmail.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEmail()));
         colPhone.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPhone()));
-        colStatus.setCellValueFactory(c ->
-                new SimpleStringProperty(c.getValue().isActive() ? "Activo" : "Inactivo"));
+        colStatus.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().isActive() ? "Activo" : "Inactivo"));
+
+        tblMembers.setItems(filteredMembers);
+        txtSearch.textProperty().addListener((obs, oldText, text) -> applyFilter());
+
         tblMembers.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldMember, member) -> fillForm(member));
         run(this::refresh);
@@ -53,8 +74,15 @@ public class MemberController {
 
     @FXML
     private void onSearch() {
-        run(() -> tblMembers.setItems(FXCollections.observableArrayList(
-                memberService.search(txtSearch.getText()))));
+        applyFilter();
+    }
+
+    private void applyFilter() {
+        String needle = txtSearch.getText() == null ? "" : txtSearch.getText().trim().toLowerCase();
+        filteredMembers.setPredicate(member -> needle.isEmpty()
+                || member.getFullName().toLowerCase().contains(needle)
+                || member.getDocumentId().toLowerCase().contains(needle)
+                || (member.getEmail() != null && member.getEmail().toLowerCase().contains(needle)));
     }
 
     @FXML
@@ -104,7 +132,7 @@ public class MemberController {
         onBack.run();
     }
 
-        private void run(Runnable action) {
+    private void run(Runnable action) {
         lblMessage.setText("");
         try {
             action.run();
@@ -116,7 +144,7 @@ public class MemberController {
     }
 
     private void refresh() {
-        tblMembers.setItems(FXCollections.observableArrayList(memberService.listAll()));
+        members.setAll(memberService.listAll());
         clearForm();
     }
 

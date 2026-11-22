@@ -8,11 +8,14 @@ import java.util.Map;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import pa.bibliotech.domain.Book;
 import pa.bibliotech.domain.Loan;
@@ -24,15 +27,26 @@ import pa.bibliotech.service.LoanService;
 import pa.bibliotech.service.MemberService;
 
 public class LoanController {
-    @FXML private ComboBox<Book> cmbBook;
-    @FXML private ComboBox<Member> cmbMember;
-    @FXML private TableView<Loan> tblLoans;
-    @FXML private TableColumn<Loan, Long> colId;
-    @FXML private TableColumn<Loan, String> colBook;
-    @FXML private TableColumn<Loan, String> colMember;
-    @FXML private TableColumn<Loan, LocalDate> colLoanDate;
-    @FXML private TableColumn<Loan, LocalDate> colDueDate;
-    @FXML private Label lblMessage;
+    @FXML
+    private ComboBox<Book> cmbBook;
+    @FXML
+    private ComboBox<Member> cmbMember;
+    @FXML
+    private TableView<Loan> tblLoans;
+    @FXML
+    private TableColumn<Loan, Long> colId;
+    @FXML
+    private TableColumn<Loan, String> colBook;
+    @FXML
+    private TableColumn<Loan, String> colMember;
+    @FXML
+    private TableColumn<Loan, LocalDate> colLoanDate;
+    @FXML
+    private TableColumn<Loan, LocalDate> colDueDate;
+    @FXML
+    private TextField txtSearch;
+    @FXML
+    private Label lblMessage;
 
     private final LoanService loanService;
     private final BookService bookService;
@@ -40,6 +54,9 @@ public class LoanController {
     private final Runnable onBack;
     private final Map<Long, String> bookTitles = new HashMap<>();
     private final Map<Long, String> memberNames = new HashMap<>();
+
+    private final ObservableList<Loan> loans = FXCollections.observableArrayList();
+    private final FilteredList<Loan> filteredLoans = new FilteredList<>(loans, loan -> true);
 
     public LoanController(LoanService loanService, BookService bookService, MemberService memberService,
             Runnable onBack) {
@@ -78,7 +95,17 @@ public class LoanController {
         colMember.setCellValueFactory(c -> new SimpleStringProperty(memberNames.get(c.getValue().getMemberId())));
         colLoanDate.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getLoanDate()));
         colDueDate.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getDueDate()));
+
+        tblLoans.setItems(filteredLoans);
+        txtSearch.textProperty().addListener((obs, oldText, text) -> applyFilter());
         run(this::refresh);
+    }
+
+    private void applyFilter() {
+        String needle = txtSearch.getText() == null ? "" : txtSearch.getText().trim().toLowerCase();
+        filteredLoans.setPredicate(loan -> needle.isEmpty()
+                || bookTitles.getOrDefault(loan.getBookId(), "").toLowerCase().contains(needle)
+                || memberNames.getOrDefault(loan.getMemberId(), "").toLowerCase().contains(needle));
     }
 
     @FXML
@@ -143,7 +170,7 @@ public class LoanController {
                 bookService.listAll().stream().filter(Book::isAvailable).toList()));
         cmbMember.setItems(FXCollections.observableArrayList(
                 memberService.listAll().stream().filter(Member::isActive).toList()));
-        tblLoans.setItems(FXCollections.observableArrayList(loanService.listActive()));
+        loans.setAll(loanService.listActive());
     }
 
     private void showOk(String text) {

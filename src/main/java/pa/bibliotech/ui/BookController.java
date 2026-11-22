@@ -3,6 +3,8 @@ package pa.bibliotech.ui;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -16,25 +18,41 @@ import pa.bibliotech.exception.DataAccessException;
 import pa.bibliotech.exception.DomainException;
 import pa.bibliotech.service.BookService;
 
-
 public class BookController {
-    @FXML private TableView<Book> tblBooks;
-    @FXML private TableColumn<Book, String> colIsbn;
-    @FXML private TableColumn<Book, String> colTitle;
-    @FXML private TableColumn<Book, String> colAuthor;
-    @FXML private TableColumn<Book, Integer> colYear;
-    @FXML private TableColumn<Book, Integer> colTotal;
-    @FXML private TableColumn<Book, Integer> colAvailable;
-    @FXML private TextField txtSearch;
-    @FXML private TextField txtIsbn;
-    @FXML private TextField txtTitle;
-    @FXML private TextField txtAuthor;
-    @FXML private TextField txtYear;
-    @FXML private TextField txtCopies;
-    @FXML private Label lblMessage;
+    @FXML
+    private TableView<Book> tblBooks;
+    @FXML
+    private TableColumn<Book, String> colIsbn;
+    @FXML
+    private TableColumn<Book, String> colTitle;
+    @FXML
+    private TableColumn<Book, String> colAuthor;
+    @FXML
+    private TableColumn<Book, Integer> colYear;
+    @FXML
+    private TableColumn<Book, Integer> colTotal;
+    @FXML
+    private TableColumn<Book, Integer> colAvailable;
+    @FXML
+    private TextField txtSearch;
+    @FXML
+    private TextField txtIsbn;
+    @FXML
+    private TextField txtTitle;
+    @FXML
+    private TextField txtAuthor;
+    @FXML
+    private TextField txtYear;
+    @FXML
+    private TextField txtCopies;
+    @FXML
+    private Label lblMessage;
 
     private final BookService bookService;
-    private final Runnable onBack;        
+    private final Runnable onBack;
+
+    private final ObservableList<Book> books = FXCollections.observableArrayList();
+    private final FilteredList<Book> filteredBooks = new FilteredList<>(books, book -> true);
 
     public BookController(BookService bookService, Runnable onBack) {
         this.bookService = bookService;
@@ -49,6 +67,10 @@ public class BookController {
         colYear.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getPublicationYear()));
         colTotal.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getTotalCopies()));
         colAvailable.setCellValueFactory(c -> new SimpleObjectProperty<>(c.getValue().getAvailableCopies()));
+
+        tblBooks.setItems(filteredBooks);
+        txtSearch.textProperty().addListener((obs, oldText, text) -> applyFilter());
+
         tblBooks.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldBook, book) -> fillForm(book));
         run(this::refresh);
@@ -56,8 +78,20 @@ public class BookController {
 
     @FXML
     private void onSearch() {
-        run(() -> tblBooks.setItems(FXCollections.observableArrayList(
-                bookService.search(txtSearch.getText()))));
+        applyFilter();
+    }
+
+    private void applyFilter() {
+        String needle = txtSearch.getText() == null ? "" : txtSearch.getText().trim().toLowerCase();
+        filteredBooks.setPredicate(book -> {
+            if (needle.isEmpty()) {
+                return true;
+            }
+            String title = book.getTitle() == null ? "" : book.getTitle().toLowerCase();
+            String author = book.getAuthor() == null ? "" : book.getAuthor().toLowerCase();
+            String isbn = book.getIsbn() == null ? "" : book.getIsbn().toLowerCase();
+            return title.contains(needle) || author.contains(needle) || isbn.contains(needle);
+        });
     }
 
     @FXML
@@ -109,8 +143,7 @@ public class BookController {
         onBack.run();
     }
 
-     
-        private void run(Runnable action) {
+    private void run(Runnable action) {
         lblMessage.setText("");
         try {
             action.run();
@@ -122,7 +155,7 @@ public class BookController {
     }
 
     private void refresh() {
-        tblBooks.setItems(FXCollections.observableArrayList(bookService.listAll()));
+        books.setAll(bookService.listAll());
         clearForm();
     }
 
@@ -132,7 +165,7 @@ public class BookController {
             return;
         }
         txtIsbn.setText(book.getIsbn());
-        txtIsbn.setDisable(true);                      
+        txtIsbn.setDisable(true);
         txtTitle.setText(book.getTitle());
         txtAuthor.setText(book.getAuthor());
         txtYear.setText(String.valueOf(book.getPublicationYear()));
