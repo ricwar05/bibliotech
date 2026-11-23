@@ -2,6 +2,7 @@ package pa.bibliotech.service;
 
 import java.util.List;
 import java.util.logging.Logger;
+
 import pa.bibliotech.domain.Member;
 import pa.bibliotech.exception.BusinessRuleException;
 import pa.bibliotech.exception.EntityNotFoundException;
@@ -10,6 +11,7 @@ import pa.bibliotech.repository.MemberRepository;
 public class MemberService {
     private static final Logger LOGGER = Logger.getLogger(MemberService.class.getName());
     private static final String EMAIL_REGEX = "^[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+$";
+    private static final int MAX_EMAIL_LENGTH = 120;
     private final MemberRepository memberRepository;
 
     public MemberService(MemberRepository memberRepository) {
@@ -73,6 +75,9 @@ public class MemberService {
         }
         if (fullName.trim().length() > 120) {
             throw new BusinessRuleException("El nombre no puede pasar de 120 caracteres");
+        }
+        if (email != null && email.trim().length() > MAX_EMAIL_LENGTH) {
+            throw new BusinessRuleException("El correo no puede pasar de " + MAX_EMAIL_LENGTH + " caracteres");
         }
         if (email != null && !email.isBlank() && !email.trim().matches(EMAIL_REGEX)) {
             throw new BusinessRuleException("El correo no tiene un formato válido");
