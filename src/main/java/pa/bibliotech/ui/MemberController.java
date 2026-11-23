@@ -2,6 +2,8 @@ package pa.bibliotech.ui;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -16,22 +18,37 @@ import pa.bibliotech.exception.DomainException;
 import pa.bibliotech.service.MemberService;
 
 public class MemberController {
-    @FXML private TableView<Member> tblMembers;
-    @FXML private TableColumn<Member, String> colDocument;
-    @FXML private TableColumn<Member, String> colName;
-    @FXML private TableColumn<Member, String> colEmail;
-    @FXML private TableColumn<Member, String> colPhone;
-    @FXML private TableColumn<Member, String> colStatus;
-    @FXML private TextField txtSearch;
-    @FXML private TextField txtDocument;
-    @FXML private TextField txtName;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtPhone;
-    @FXML private CheckBox chkActive;
-    @FXML private Label lblMessage;
+    @FXML
+    private TableView<Member> tblMembers;
+    @FXML
+    private TableColumn<Member, String> colDocument;
+    @FXML
+    private TableColumn<Member, String> colName;
+    @FXML
+    private TableColumn<Member, String> colEmail;
+    @FXML
+    private TableColumn<Member, String> colPhone;
+    @FXML
+    private TableColumn<Member, String> colStatus;
+    @FXML
+    private TextField txtSearch;
+    @FXML
+    private TextField txtDocument;
+    @FXML
+    private TextField txtName;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtPhone;
+    @FXML
+    private CheckBox chkActive;
+    @FXML
+    private Label lblMessage;
 
     private final MemberService memberService;
     private final Runnable onBack;
+    private final ObservableList<Member> masterData = FXCollections.observableArrayList();
+    private final FilteredList<Member> filteredData = new FilteredList<>(masterData, p -> true);
 
     public MemberController(MemberService memberService, Runnable onBack) {
         this.memberService = memberService;
@@ -44,8 +61,11 @@ public class MemberController {
         colName.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFullName()));
         colEmail.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEmail()));
         colPhone.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPhone()));
-        colStatus.setCellValueFactory(c ->
-                new SimpleStringProperty(c.getValue().isActive() ? "Activo" : "Inactivo"));
+        colStatus.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().isActive() ? "Activo" : "Inactivo"));
+
+        tblMembers.setItems(filteredData);
+        txtSearch.textProperty().addListener((obs, oldVal, newVal) -> applyFilter(newVal));
+
         tblMembers.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldMember, member) -> fillForm(member));
         run(this::refresh);
@@ -53,8 +73,7 @@ public class MemberController {
 
     @FXML
     private void onSearch() {
-        run(() -> tblMembers.setItems(FXCollections.observableArrayList(
-                memberService.search(txtSearch.getText()))));
+        applyFilter(txtSearch.getText());
     }
 
     @FXML
@@ -104,7 +123,25 @@ public class MemberController {
         onBack.run();
     }
 
-        private void run(Runnable action) {
+    private void applyFilter(String query) {
+        String filter = query == null ? "" : query.trim().toLowerCase();
+        filteredData.setPredicate(member -> {
+            if (member == null) {
+                return false;
+            }
+            if (filter.isEmpty()) {
+                return true;
+            }
+            String fullName = member.getFullName() != null ? member.getFullName().toLowerCase() : "";
+            String documentId = member.getDocumentId() != null ? member.getDocumentId().toLowerCase() : "";
+            String email = member.getEmail() != null ? member.getEmail().toLowerCase() : "";
+            return fullName.contains(filter)
+                    || documentId.contains(filter)
+                    || email.contains(filter);
+        });
+    }
+
+    private void run(Runnable action) {
         lblMessage.setText("");
         try {
             action.run();
@@ -116,7 +153,8 @@ public class MemberController {
     }
 
     private void refresh() {
-        tblMembers.setItems(FXCollections.observableArrayList(memberService.listAll()));
+        masterData.setAll(memberService.listAll());
+        applyFilter(txtSearch.getText());
         clearForm();
     }
 
