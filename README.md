@@ -38,20 +38,20 @@ login, abrirá primero la pantalla de inicio de sesión.
 | CRUD de libros | Hecho |
 | CRUD de socios | Hecho |
 | Login con bcrypt y menú por rol | Hecho |
-| Patrones Strategy y Factory Method | Hecho|
-
+| Patrones Strategy y Factory Method | Hecho |
 ### Fase 2
 | Módulo | Estado |
 |---|---|
 | Ajustes de dominio (devolución de copias y excepciones) | Hecho |
 | Diagrama entidad-relación y diccionario de datos | En progreso |
-| Repositorio de préstamos | Pendiente |
-| Registrar préstamo con transacción | Pendiente |
-| Devolución con multa (Strategy) | Pendiente |
-| Pantalla de préstamos | Pendiente |
-| Pruebas JUnit | Pendiente |
-| Diagramas de clases, secuencia y flujo | Pendiente |
-| Mapa SOLID de la fase 2 | Pendiente |
+| Repositorio de préstamos | Hecho |
+| Registrar préstamo con transacción | Hecho |
+| Devolución con multa (Strategy) | Hecho |
+| Pantalla de préstamos | Hecho |
+| Pruebas JUnit | Hecho |
+| Diagramas de secuencia y flujo | Hecho |
+| Diagrama de clases de la fase 2 | En progreso |
+| Mapa SOLID de la fase 2 | Hecho |
 
 ## Estructura del código (paquete `pa.bibliotech`)
 | Paquete | Responsabilidad |
