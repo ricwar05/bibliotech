@@ -11,6 +11,8 @@
             <padding><Insets bottom="10"/></padding>
             <Button text="Menú" onAction="#onBack"/>
             <Label text="Préstamos activos" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+            <TextField fx:id="txtSearch" promptText="Buscar por libro o socio"
+prefWidth="260"/> 
         </HBox>
     </top>
     <center>
