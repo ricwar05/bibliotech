@@ -20,10 +20,13 @@ public class LoginController {
 
     private final AuthService authService;
     private final java.util.function.Consumer<User> onLoginSuccess;
+    private final Runnable onConnectionError;
 
-    public LoginController(AuthService authService, java.util.function.Consumer<User> onLoginSuccess) {
+    public LoginController(AuthService authService, java.util.function.Consumer<User> onLoginSuccess,
+            Runnable onConnectionError) {
         this.authService = authService;
         this.onLoginSuccess = onLoginSuccess;
+        this.onConnectionError = onConnectionError;
     }
 
     @FXML
@@ -44,7 +47,9 @@ public class LoginController {
                 showAlert("Error de autenticación", "Usuario o contraseña incorrectos.");
             }
         } catch (DataAccessException e) {
-            showAlert("Error de conexión", "No se pudo conectar con la base de datos. Intente de nuevo.");
+            showAlert("Error de conexión",
+                    "No se pudo conectar con el servidor. Revise su conexión a internet e intente de nuevo.");
+            onConnectionError.run();
         }
     }
 
