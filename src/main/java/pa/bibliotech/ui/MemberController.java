@@ -47,9 +47,8 @@ public class MemberController {
 
     private final MemberService memberService;
     private final Runnable onBack;
-
-    private final ObservableList<Member> members = FXCollections.observableArrayList();
-    private final FilteredList<Member> filteredMembers = new FilteredList<>(members, member -> true);
+    private final ObservableList<Member> masterData = FXCollections.observableArrayList();
+    private final FilteredList<Member> filteredData = new FilteredList<>(masterData, p -> true);
 
     public MemberController(MemberService memberService, Runnable onBack) {
         this.memberService = memberService;
@@ -64,8 +63,8 @@ public class MemberController {
         colPhone.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPhone()));
         colStatus.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().isActive() ? "Activo" : "Inactivo"));
 
-        tblMembers.setItems(filteredMembers);
-        txtSearch.textProperty().addListener((obs, oldText, text) -> applyFilter());
+        tblMembers.setItems(filteredData);
+        txtSearch.textProperty().addListener((obs, oldVal, newVal) -> applyFilter(newVal));
 
         tblMembers.getSelectionModel().selectedItemProperty()
                 .addListener((obs, oldMember, member) -> fillForm(member));
@@ -74,15 +73,7 @@ public class MemberController {
 
     @FXML
     private void onSearch() {
-        applyFilter();
-    }
-
-    private void applyFilter() {
-        String needle = txtSearch.getText() == null ? "" : txtSearch.getText().trim().toLowerCase();
-        filteredMembers.setPredicate(member -> needle.isEmpty()
-                || member.getFullName().toLowerCase().contains(needle)
-                || member.getDocumentId().toLowerCase().contains(needle)
-                || (member.getEmail() != null && member.getEmail().toLowerCase().contains(needle)));
+        applyFilter(txtSearch.getText());
     }
 
     @FXML
@@ -132,6 +123,24 @@ public class MemberController {
         onBack.run();
     }
 
+    private void applyFilter(String query) {
+        String filter = query == null ? "" : query.trim().toLowerCase();
+        filteredData.setPredicate(member -> {
+            if (member == null) {
+                return false;
+            }
+            if (filter.isEmpty()) {
+                return true;
+            }
+            String fullName = member.getFullName() != null ? member.getFullName().toLowerCase() : "";
+            String documentId = member.getDocumentId() != null ? member.getDocumentId().toLowerCase() : "";
+            String email = member.getEmail() != null ? member.getEmail().toLowerCase() : "";
+            return fullName.contains(filter)
+                    || documentId.contains(filter)
+                    || email.contains(filter);
+        });
+    }
+
     private void run(Runnable action) {
         lblMessage.setText("");
         try {
@@ -144,7 +153,8 @@ public class MemberController {
     }
 
     private void refresh() {
-        members.setAll(memberService.listAll());
+        masterData.setAll(memberService.listAll());
+        applyFilter(txtSearch.getText());
         clearForm();
     }
 

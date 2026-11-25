@@ -3,15 +3,17 @@ package pa.bibliotech.service;
 import java.time.Year;
 import java.util.List;
 import java.util.logging.Logger;
+
 import pa.bibliotech.domain.Book;
 import pa.bibliotech.exception.BusinessRuleException;
 import pa.bibliotech.exception.EntityNotFoundException;
 import pa.bibliotech.repository.BookRepository;
 
-
 public class BookService {
     private static final Logger LOGGER = Logger.getLogger(BookService.class.getName());
-    private final BookRepository bookRepository;              
+    private static final int MAX_TITLE_LENGTH = 200;
+    private static final int MAX_AUTHOR_LENGTH = 150;
+    private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
@@ -77,8 +79,14 @@ public class BookService {
         if (title == null || title.isBlank()) {
             throw new BusinessRuleException("El título es obligatorio");
         }
+        if (title.trim().length() > MAX_TITLE_LENGTH) {
+            throw new BusinessRuleException("El título no puede pasar de " + MAX_TITLE_LENGTH + " caracteres");
+        }
         if (author == null || author.isBlank()) {
             throw new BusinessRuleException("El autor es obligatorio");
+        }
+        if (author.trim().length() > MAX_AUTHOR_LENGTH) {
+            throw new BusinessRuleException("El autor no puede pasar de " + MAX_AUTHOR_LENGTH + " caracteres");
         }
         if (year < 1450 || year > Year.now().getValue()) {
             throw new BusinessRuleException("El año debe estar entre 1450 y " + Year.now().getValue());
