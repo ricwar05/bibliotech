@@ -1,7 +1,6 @@
 package pa.bibliotech.ui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import pa.bibliotech.domain.User;
@@ -10,20 +9,22 @@ public class MainMenuController {
     @FXML
     private Label welcomeLabel;
     @FXML
-    private Button usersButton;
+    private Button reportsButton;
 
     private final User user;
     private final Runnable openBooksAction;
     private final Runnable openMembersAction;
     private final Runnable openLoansAction;
+    private final Runnable openReportsAction;
     private final Runnable logoutAction;
 
     public MainMenuController(User user, Runnable openBooksAction, Runnable openMembersAction,
-            Runnable openLoansAction, Runnable logoutAction) {
+            Runnable openLoansAction, Runnable openReportsAction, Runnable logoutAction) {
         this.user = user;
         this.openBooksAction = openBooksAction;
         this.openMembersAction = openMembersAction;
         this.openLoansAction = openLoansAction;
+        this.openReportsAction = openReportsAction;
         this.logoutAction = logoutAction;
     }
 
@@ -31,8 +32,8 @@ public class MainMenuController {
     private void initialize() {
         welcomeLabel.setText("Bienvenido, " + user.getFullName() + " (" + user.getRole() + ")");
         boolean admin = "ADMIN".equals(user.getRole());
-        usersButton.setVisible(admin);
-        usersButton.setManaged(admin);
+        reportsButton.setVisible(admin);
+        reportsButton.setManaged(admin);
     }
 
     @FXML
@@ -51,12 +52,8 @@ public class MainMenuController {
     }
 
     @FXML
-    private void handleUsers() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Usuarios");
-        alert.setHeaderText(null);
-        alert.setContentText("La gestión de usuarios se agrega en una fase siguiente.");
-        alert.showAndWait();
+    private void handleOpenReports() {
+        openReportsAction.run();
     }
 
     @FXML

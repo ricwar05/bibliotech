@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pa.bibliotech.ui.ReportController" prefWidth="1000" prefHeight="580">
+    <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
+    <top>
+        <HBox spacing="8">
+            <padding><Insets bottom="10"/></padding>
+            <Button text="Menú" onAction="#onBack"/>
+            <Label text="Reportes" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+            <ComboBox fx:id="cmbReport" prefWidth="260"/>
+            <Button text="Generar" onAction="#onGenerate"/>
+            <Button text="Exportar CSV" onAction="#onExport"/>
+        </HBox>
+    </top>
+    <center>
+        <TableView fx:id="tblReport"/>
+    </center>
+    <bottom>
+        <Label fx:id="lblMessage" wrapText="true">
+            <padding><Insets top="8"/></padding>
+        </Label>
+    </bottom>
+</BorderPane>
