@@ -22,11 +22,13 @@ import pa.bibliotech.exception.DataAccessException;
 import pa.bibliotech.repository.jdbc.JdbcBookRepository;
 import pa.bibliotech.repository.jdbc.JdbcLoanRepository;
 import pa.bibliotech.repository.jdbc.JdbcMemberRepository;
+import pa.bibliotech.repository.jdbc.JdbcReportRepository;
 import pa.bibliotech.repository.jdbc.JdbcUserRepository;
 import pa.bibliotech.service.AuthService;
 import pa.bibliotech.service.BookService;
 import pa.bibliotech.service.LoanService;
 import pa.bibliotech.service.MemberService;
+import pa.bibliotech.service.ReportService;
 import pa.bibliotech.strategy.CappedFineStrategy;
 import pa.bibliotech.strategy.FineStrategy;
 import pa.bibliotech.ui.BookController;
@@ -34,6 +36,7 @@ import pa.bibliotech.ui.LoanController;
 import pa.bibliotech.ui.LoginController;
 import pa.bibliotech.ui.MainMenuController;
 import pa.bibliotech.ui.MemberController;
+import pa.bibliotech.ui.ReportController;
 
 public class App extends Application {
     private static final Logger LOGGER = Logger.getLogger(App.class.getName());
@@ -98,7 +101,7 @@ public class App extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/pa/bibliotech/ui/main-menu.fxml"));
             loader.setControllerFactory(type -> new MainMenuController(currentUser, this::showBooksView,
-                    this::showMembersView, this::showLoansView, this::logout));
+                    this::showMembersView, this::showLoansView, this::showReportsView, this::logout));
             primaryStage.setScene(new Scene(loader.load()));
             primaryStage.setTitle("BiblioTech Panamá · Menú Principal");
         } catch (IOException e) {
@@ -152,6 +155,21 @@ public class App extends Application {
             showConnectionError();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "No se pudo abrir préstamos", e);
+        }
+    }
+
+    private void showReportsView() {
+        try {
+            ReportService reportService = new ReportService(new JdbcReportRepository(connection()));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/pa/bibliotech/ui/report.fxml"));
+            loader.setControllerFactory(
+                    type -> new ReportController(reportService, () -> showMainMenuView(currentUser)));
+            primaryStage.setScene(new Scene(loader.load()));
+            primaryStage.setTitle("BiblioTech Panamá · Reportes");
+        } catch (DataAccessException e) {
+            showConnectionError();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "No se pudo abrir reportes", e);
         }
     }
 
